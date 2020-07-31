@@ -20,9 +20,18 @@ proc fillArr(a:[] ?t, const aMin, const aMax) where isIntType(t) {
   }
 }
 
+proc fillDefault(a: [] ?t, const aMin, const aMax) where isIntType(t) { 
+  fillRandom(a);
+  [ai in a] if (ai < 0) { ai = -ai; }
+  if (aMax > aMin) {
+    const modulus = aMax - aMin;
+    [x in a] x = ((x % modulus) + aMin):t;
+  }
+}
+
 proc makeDefaultArray() {
   var a: [0..#k] int;
-  fillArr(a,0,MAX_VAL);
+  fillDefault(a,0,MAX_VAL);
   return a;
 }
 
