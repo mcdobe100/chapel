@@ -32,7 +32,7 @@
 #include "chpl-mem-hook.h"
 #include "chpltypes.h"
 #include "error.h"
-
+#include "pool.h"
 
 /* The names and arguments for these functions are part
    of Chapel's user-facing interface because they are
@@ -63,6 +63,7 @@ void chpl_mem_exit(void);
 
 int chpl_mem_inited(void);
 
+int regionBased = 1;
 
 static inline
 void* chpl_mem_allocMany(size_t number, size_t size,
@@ -77,8 +78,27 @@ void* chpl_mem_allocMany(size_t number, size_t size,
 }
 
 static inline
+int64_t setRegion() {
+  if(regionBased == 0)
+    return regionBased = 1;
+  return regionBased = 0;
+}
+
+pool a;
+
+static inline
+void* chpl_region_alloc() {
+  if(regionBased) {
+    poolInitialize(&a, 10000, 100);
+    setRegion();
+  }
+  return poolMalloc(&a);;
+}
+
+static inline
 void* chpl_mem_alloc(size_t size, chpl_mem_descInt_t description,
                      int32_t lineno, int32_t filename) {
+  return chpl_region_alloc();
   return chpl_mem_allocMany(1, size, description, lineno, filename);
 }
 
