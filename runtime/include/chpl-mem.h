@@ -33,7 +33,7 @@
 #include "chpltypes.h"
 #include "error.h"
 
-
+#include<arena.h>
 /* The names and arguments for these functions are part
    of Chapel's user-facing interface because they are
    documented in a doc/rst/developer README
@@ -76,9 +76,30 @@ void* chpl_mem_allocMany(size_t number, size_t size,
   return memAlloc;
 }
 
+int isInitialized = 0;
+int inRegion = 0;
+
+static inline
+void enterRegion() {
+  isInitialized = 1;
+  inRegion = 1;
+}
+
+arena a;
+
+static inline void exitRegion() {
+  inRegion = 0;
+}
+
 static inline
 void* chpl_mem_alloc(size_t size, chpl_mem_descInt_t description,
                      int32_t lineno, int32_t filename) {
+  if(!isInitialized) {
+    isInitialized=1;
+    arenaInit(&a, 50000000, description, lineno, filename);
+  }
+  if(inRegion)
+    return arenaNext(&a);
   return chpl_mem_allocMany(1, size, description, lineno, filename);
 }
 
@@ -137,6 +158,8 @@ void* chpl_mem_memalign(size_t boundary, size_t size,
 
 static inline
 void chpl_mem_free(void* memAlloc, int32_t lineno, int32_t filename) {
+  if(inRegion)
+    return;
   chpl_memhook_free_pre(memAlloc, lineno, filename);
   chpl_free(memAlloc);
 }
