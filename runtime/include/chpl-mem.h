@@ -96,7 +96,7 @@ void* chpl_mem_alloc(size_t size, chpl_mem_descInt_t description,
                      int32_t lineno, int32_t filename) {
   if(!isInitialized) {
     isInitialized=1;
-    arenaInit(&a, 50000000, description, lineno, filename);
+    arenaInit(&a, 100000000, description, lineno, filename);
   }
   if(inRegion)
     return arenaNext(&a);
