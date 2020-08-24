@@ -29,7 +29,11 @@
 #include "chplsys.h"
 
 static int heapInitialized = 0;
+static atomic_spinlock_t lock;
 
+void initMyArenaLock() {
+  atomic_init_spinlock_t(&lock);
+}
 
 void chpl_mem_init(void) {
   chpl_mem_layerInit();

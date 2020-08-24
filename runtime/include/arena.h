@@ -8,7 +8,7 @@ typedef struct {
   unsigned char* curr;
 } arena;
 
-static atomic_spinlock_t lock;
+extern atomic_spinlock_t lock;
 
 static inline void arenaInit(arena* a, int arenaSize, chpl_mem_descInt_t description,
                      int32_t lineno, int32_t filename);
@@ -22,7 +22,7 @@ void arenaInit(arena* a, int arenaSize, chpl_mem_descInt_t description,
                      int32_t lineno, int32_t filename) {
   a -> head = chpl_mem_alloc((size_t)arenaSize, description, lineno, filename);
   a -> curr = (unsigned char*)a -> head;
-  atomic_init_spinlock_t(&lock);
+  initMyArenaLock();
 }
 
 static inline
