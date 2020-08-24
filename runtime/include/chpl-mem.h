@@ -88,6 +88,7 @@ void enterRegion() {
 arena a;
 
 static inline void exitRegion() {
+  printf("leaving\n");
   inRegion = 0;
 }
 
@@ -98,8 +99,9 @@ void* chpl_mem_alloc(size_t size, chpl_mem_descInt_t description,
     isInitialized=1;
     arenaInit(&a, 100000000, description, lineno, filename);
   }
-  if(inRegion)
+  if(inRegion) {
     return arenaNext(&a);
+  }
   return chpl_mem_allocMany(1, size, description, lineno, filename);
 }
 

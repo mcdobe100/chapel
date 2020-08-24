@@ -7,17 +7,19 @@ proc func() {
   extern proc enterRegion();
   enterRegion();
 
-  for i in 0..1000000 do
+  forall i in 0..0 do {
     var a: asd = new asd(a=5);
+    writeln("");
+  }
 
   extern proc exitRegion();
   exitRegion();
 }
-var t: Timer;
+/*var t: Timer;
 t.start();
 
 func();
 
 t.stop();
-writeln(t.elapsed());
-
+writeln(t.elapsed());*/
+func();
