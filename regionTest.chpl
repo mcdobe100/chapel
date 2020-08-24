@@ -15,11 +15,10 @@ proc func() {
   extern proc exitRegion();
   exitRegion();
 }
-/*var t: Timer;
+var t: Timer;
 t.start();
 
 func();
 
 t.stop();
-writeln(t.elapsed());*/
-func();
+writeln(t.elapsed());
