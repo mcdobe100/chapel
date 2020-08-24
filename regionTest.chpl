@@ -7,7 +7,7 @@ proc func() {
   extern proc enterRegion();
   enterRegion();
 
-  forall i in 0..0 do {
+  forall i in 0..1 do {
     var a: asd = new asd(a=5);
     writeln("");
   }
