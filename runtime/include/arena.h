@@ -16,6 +16,7 @@ static inline void* arenaNext(arena* a);
 static inline void* chpl_mem_alloc(size_t size, chpl_mem_descInt_t description,
                    int32_t lineno, int32_t filename);
 static inline void destroyArena(arena* a, int32_t lineno, int32_t filename);
+extern void initMyArenaLock();
 
 static inline
 void arenaInit(arena* a, int arenaSize, chpl_mem_descInt_t description,
