@@ -19,7 +19,7 @@ record Arena {
 
   proc alloc(): eltType {
     var ret = ptr:eltType;
-    //ptr += c_sizeof(eltType);
+    ptr += c_sizeof(eltType);
     //ret!.i=1;
     ret!.init();
     return ret;
