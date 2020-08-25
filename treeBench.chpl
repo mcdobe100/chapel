@@ -35,7 +35,7 @@ proc main() {
   var t: Timer;
   t.start();
 
-  for depth in dynamic(depths) {
+  forall depth in dynamic(depths) {
     const iterations = 2**(maxDepth - depth + minDepth);
     var sum = 0;
 

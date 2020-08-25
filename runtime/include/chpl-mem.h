@@ -88,13 +88,14 @@ void enterRegion() {
 arena a;
 
 static inline void exitRegion() {
-  printf("leaving\n");
   inRegion = 0;
 }
 
 static inline
 void* chpl_mem_alloc(size_t size, chpl_mem_descInt_t description,
                      int32_t lineno, int32_t filename) {
+  // initialize here because the user calling from the chapel
+  // code doesn't have access to the description values
   if(!isInitialized) {
     isInitialized=1;
     arenaInit(&a, 100000000, description, lineno, filename);
