@@ -1,5 +1,6 @@
 use arena3;
 use DynamicIters;
+use Time;
 
 config const n = 10;
 
@@ -65,5 +66,9 @@ proc main() {
   t!.buildTree(n, allocator);
   writeln(t!.sum());*/
 
+  var t: Timer = new Timer();
+  t.start();
   bench(allocator);
+  t.stop();
+  writeln("This took: ", t.elapsed(), " seconds");
 }
